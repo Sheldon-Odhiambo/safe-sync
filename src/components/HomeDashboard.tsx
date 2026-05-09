@@ -24,30 +24,30 @@ export function HomeDashboard() {
     <div className={`flex flex-col flex-grow w-full max-w-md ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
       <div className="relative flex-grow flex flex-col p-8 overflow-hidden">
         {activeTab === 'home' && !showTypeSelector && (
-          <div className="flex flex-col items-center justify-center flex-grow">
-            <div className="bg-gray-800 border border-gray-700 rounded-full px-4 py-1.5 flex items-center gap-2 mb-12">
-                <div className="w-2 h-2 rounded-full bg-green-500"></div>
-                <span className="text-sm font-bold text-gray-200">Connected to Store #442</span>
+          <div className="flex flex-col flex-grow">
+            <div className="flex justify-between items-center mb-8">
+                <h1 className="text-xl font-bold">SafeSync</h1>
+                <div className="flex items-center gap-2 text-xs font-bold bg-gray-900 px-3 py-1 rounded-full text-gray-200">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div> Connected #442
+                </div>
             </div>
 
-            <button onClick={() => setShowTypeSelector(true)} className="w-64 h-64 rounded-full bg-red-600 flex flex-col items-center justify-center gap-2 shadow-[0_0_40px_rgba(220,38,38,0.5)] border-4 border-white/10 hover:bg-red-700 transition-all">
-                <div className="flex items-center gap-2 font-bold text-xl uppercase tracking-widest">
-                    <AlertCircle className="w-8 h-8" /> ALERTIFY
-                </div>
-            </button>
-            <h2 className="mt-8 text-2xl font-bold text-red-500 uppercase tracking-widest">Emergency</h2>
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-center mt-2 max-w-xs text-sm`}>Press Alertify to request assistance</p>
+            <div className="flex flex-col items-center justify-center flex-grow">
+                <button onClick={() => setShowTypeSelector(true)} className="w-56 h-56 rounded-full bg-red-600 flex flex-col items-center justify-center gap-2 shadow-[0_0_40px_rgba(220,38,38,0.5)] border-4 border-red-800 hover:bg-red-700 transition-all">
+                    <AlertCircle className="w-16 h-16 text-white" />
+                    <span className="font-bold text-lg uppercase tracking-widest text-white">Alertify</span>
+                </button>
+                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-center mt-6 max-w-xs text-sm font-medium`}>Instantly trigger emergency protocol</p>
+            </div>
             
-            <div className="grid grid-cols-2 gap-4 w-full mt-12">
-                <div className="bg-gray-900 border border-gray-800 p-4 rounded-lg text-center">
-                    <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Personnel</p>
-                    <p className="text-2xl font-bold mt-1">12 / 12</p>
-                    <p className="text-green-500 text-xs font-bold mt-1">ALL SAFE</p>
+            <div className="grid grid-cols-2 gap-4 w-full mt-auto">
+                <div className={`border p-4 rounded-lg text-center ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-100 border-gray-200'}`}>
+                    <p className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Status</p>
+                    <p className="text-xl font-bold mt-1 text-green-600">ALL SAFE</p>
                 </div>
-                <div className="bg-gray-900 border border-gray-800 p-4 rounded-lg text-center">
-                    <p className="text-gray-500 text-xs font-bold uppercase tracking-wider">Active Alerts</p>
-                    <p className="text-2xl font-bold mt-1">0</p>
-                    <p className="text-gray-400 text-xs font-bold mt-1">STABLE</p>
+                <div className={`border p-4 rounded-lg text-center ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-100 border-gray-200'}`}>
+                    <p className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Active Alerts</p>
+                    <p className="text-xl font-bold mt-1">0</p>
                 </div>
             </div>
           </div>

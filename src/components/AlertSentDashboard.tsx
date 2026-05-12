@@ -1,10 +1,10 @@
-import { CheckCircle, Clock, Phone, X, ShieldAlert, Navigation, Flame, HeartPulse, Home, Map as MapIcon, Bell, Settings } from 'lucide-react';
+import { CheckCircle, Clock, Phone, X, ShieldAlert, Navigation, Home, Map as MapIcon, Bell, Settings } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { APIProvider, Map, AdvancedMarker, Pin } from '@vis.gl/react-google-maps';
 
 const API_KEY = process.env.GOOGLE_MAPS_PLATFORM_KEY || '';
 
-export function AlertSentDashboard({ onCancel, darkMode, setActiveTab }: { onCancel: () => void, darkMode: boolean, setActiveTab: (tab: 'home' | 'alerts' | 'map' | 'settings') => void }) {
+export function AlertSentDashboard({ onCancel, darkMode, setActiveTab, emergencyType }: { onCancel: () => void, darkMode: boolean, setActiveTab: (tab: 'home' | 'alerts' | 'map' | 'settings') => void, emergencyType: string | null }) {
   const [eta, setEta] = useState(4);
   const [showConfirmCancel, setShowConfirmCancel] = useState(false);
 
@@ -35,8 +35,12 @@ export function AlertSentDashboard({ onCancel, darkMode, setActiveTab }: { onCan
             <div className={`inline-flex p-3 rounded-full ${darkMode ? 'bg-red-950/50 border-red-900/50' : 'bg-red-100 border-red-200'} border mb-2`}>
                 <Navigation className="w-8 h-8 text-red-500" />
             </div>
-            <h1 className="text-2xl font-bold text-red-500 tracking-tight">Alert Active</h1>
-            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm`}>Help is arriving at your venue.</p>
+            <h1 className="text-2xl font-bold text-red-500 tracking-tight uppercase">
+                {emergencyType} Alert Confirmed
+            </h1>
+            <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm`}>
+                Help is arriving at your venue.
+            </p>
             <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-sm mt-1`}>Contact: <span className="font-bold">+254 700 000 000</span></p>
             <p className={`text-xl font-bold ${darkMode ? 'text-white' : 'text-black'} mt-1`}>ETA: {eta} {eta === 1 ? 'min' : 'mins'}</p>
           </div>
@@ -82,15 +86,6 @@ export function AlertSentDashboard({ onCancel, darkMode, setActiveTab }: { onCan
           </div>
 
           <div className="mb-4">
-            <p className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">Update Emergency Status</p>
-            <div className="grid grid-cols-2 gap-2">
-                <button className={`flex flex-col items-center justify-center p-2 rounded border ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-red-900/50' : 'bg-gray-200 border-gray-300 hover:bg-red-200'} transition-all`}>
-                  <Flame className="w-5 h-5 text-red-500 mb-1"/><span className="text-[10px] font-bold">FIRE</span>
-                </button>
-                <button className={`flex flex-col items-center justify-center p-2 rounded border ${darkMode ? 'bg-gray-800 border-gray-700 hover:bg-blue-900/50' : 'bg-gray-200 border-gray-300 hover:bg-blue-200'} transition-all`}>
-                  <HeartPulse className="w-5 h-5 text-blue-500 mb-1"/><span className="text-[10px] font-bold">MEDICAL</span>
-                </button>
-            </div>
           </div>
 
           <button onClick={() => setShowConfirmCancel(true)} className={`w-full ${darkMode ? 'bg-gray-900 text-gray-300 border-gray-700' : 'bg-gray-200 text-gray-800 border-gray-300'} border py-3 rounded font-bold hover:bg-gray-800 transition-all text-sm`}>

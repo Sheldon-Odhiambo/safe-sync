@@ -3,72 +3,121 @@ import React, { useState } from 'react';
 import { AlertSentDashboard } from './AlertSentDashboard';
 
 export function HomeDashboard() {
-  const [activeTab, setActiveTab] = useState<'home' | 'alerts' | 'map' | 'settings'>('home');
-  const [showTypeSelector, setShowTypeSelector] = useState(false);
-  const [emergencyType, setEmergencyType] = useState<string | null>(null);
-  const [isAlertActive, setIsAlertActive] = useState(false);
+    const [activeTab, setActiveTab] = useState<'home' | 'alerts' | 'map' | 'settings'>('home');
+    const [emergencyType, setEmergencyType] = useState<string | null>(null);
+    const [isAlertActive, setIsAlertActive] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
   const [notificationsEnabled, setNotificationsEnabled] = useState(true);
 
-  const triggerEmergency = (type: string) => {
-    setEmergencyType(type);
-    setShowTypeSelector(false);
+  const triggerEmergency = () => {
+    if (!emergencyType) {
+        alert("Please select an emergency type first.");
+        return;
+    }
     setIsAlertActive(true);
   };
 
   if (isAlertActive) {
-    return <AlertSentDashboard onCancel={() => setIsAlertActive(false)} darkMode={darkMode} setActiveTab={setActiveTab} />;
+    return <AlertSentDashboard onCancel={() => setIsAlertActive(false)} darkMode={darkMode} setActiveTab={setActiveTab} emergencyType={emergencyType} />;
   }
 
   return (
-    <div className={`flex flex-col flex-grow w-full max-w-md ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
-      <div className="relative flex-grow flex flex-col p-8 overflow-hidden">
-        {activeTab === 'home' && !showTypeSelector && (
-          <div className="flex flex-col flex-grow">
-            <div className="flex justify-between items-center mb-8">
+    <div className={`flex flex-col lg:flex-row flex-grow w-full h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
+      {/* Sidebar for Desktop */}
+      <nav className="hidden lg:flex flex-col w-64 border-r bg-[#0B1727] border-slate-800 p-6 text-white">
+        <h1 className="text-xl font-bold mb-10">SafeSync</h1>
+        <div className="space-y-4">
+          <button onClick={() => setActiveTab('home')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'home' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><Home className="w-5 h-5 text-white" />Home</button>
+          <button onClick={() => setActiveTab('alerts')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'alerts' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><Bell className="w-5 h-5 text-white" />Alerts</button>
+          <button onClick={() => setActiveTab('map')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'map' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><MapIcon className="w-5 h-5 text-white" />Map</button>
+          <button onClick={() => setActiveTab('settings')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'settings' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><Settings className="w-5 h-5 text-white" />Settings</button>
+        </div>
+      </nav>
+
+      {/* Main Content */}
+      <div className="relative flex-grow flex flex-col p-8 overflow-hidden w-full max-w-7xl mx-auto">
+        {activeTab === 'home' && (
+          <div className="flex flex-col lg:flex-row flex-grow lg:gap-8">
+            <div className="flex flex-col w-full lg:max-w-2xl">
+              <div className="lg:hidden flex justify-between items-center mb-8">
                 <h1 className="text-xl font-bold">SafeSync</h1>
                 <div className="flex items-center gap-2 text-xs font-bold bg-gray-900 px-3 py-1 rounded-full text-gray-200">
                     <div className="w-2 h-2 rounded-full bg-green-500"></div> Connected #442
                 </div>
-            </div>
+              </div>
+              <div className="hidden lg:flex justify-between items-center mb-8 w-full">
+                <h1 className="text-2xl font-bold">SafeSync</h1>
+                <div className="flex items-center gap-2 text-xs font-bold bg-gray-200 text-black px-3 py-1 rounded-full">
+                    <div className="w-2 h-2 rounded-full bg-green-500"></div> Connected #442
+                </div>
+              </div>
 
-            <div className="flex flex-col items-center justify-center flex-grow">
-                <button onClick={() => setShowTypeSelector(true)} className="w-56 h-56 rounded-full bg-red-600 flex flex-col items-center justify-center gap-2 shadow-[0_0_40px_rgba(220,38,38,0.5)] border-4 border-red-800 hover:bg-red-700 transition-all">
-                    <AlertCircle className="w-16 h-16 text-white" />
-                    <span className="font-bold text-lg uppercase tracking-widest text-white">Alertify</span>
-                </button>
-                <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-center mt-6 max-w-xs text-sm font-medium`}>Instantly trigger emergency protocol</p>
+              {/* Mobile View: Simple SOS Button and Emergency Buttons */}
+              <div className="flex flex-col items-center justify-center w-full p-4 lg:hidden">
+                  <button onClick={triggerEmergency} className={`w-56 h-56 rounded-full flex flex-col items-center justify-center gap-2 shadow-lg border-4 transition-all ${emergencyType ? 'bg-red-600 border-red-800 hover:bg-red-700' : 'bg-gray-400 border-gray-600 cursor-not-allowed'}`}>
+                      <AlertCircle className="w-16 h-16 text-white" />
+                      <span className="font-bold text-lg uppercase tracking-widest text-white">Alertify</span>
+                  </button>
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-center mt-6 max-w-xs text-sm font-medium`}>Instantly trigger emergency protocol</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 w-full mt-8 max-w-md">
+                      <button onClick={() => setEmergencyType('FIRE')} className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${emergencyType === 'FIRE' ? 'border-red-500 bg-red-50' : 'border-gray-200'}`}>
+                          <Flame className={`w-8 h-8 mb-2 ${emergencyType === 'FIRE' ? 'text-red-500' : 'text-gray-400'}`} />
+                          <span className="font-bold text-xs text-center">Fire Emergency</span>
+                      </button>
+                      <button onClick={() => setEmergencyType('MEDICAL')} className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${emergencyType === 'MEDICAL' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
+                          <HeartPulse className={`w-8 h-8 mb-2 ${emergencyType === 'MEDICAL' ? 'text-blue-500' : 'text-gray-400'}`} />
+                          <span className="font-bold text-xs text-center">Medical Emergency</span>
+                      </button>
+                  </div>
+                  <div className="grid grid-cols-2 gap-4 w-full mt-8 max-w-md">
+                      <div className={`border p-4 rounded-xl text-center shadow-sm ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+                          <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Status</p>
+                          <p className="font-bold text-green-600">ALL SAFE</p>
+                      </div>
+                      <div className={`border p-4 rounded-xl text-center shadow-sm ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'}`}>
+                          <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-1">Active Alerts</p>
+                          <p className="font-bold">0</p>
+                      </div>
+                  </div>
+              </div>
+
+              {/* Web View: More structured SOS and Emergency Buttons */}
+              <div className="hidden lg:flex flex-col items-center justify-center w-full border rounded-2xl p-12">
+                  <button onClick={triggerEmergency} className={`w-64 h-64 rounded-full flex flex-col items-center justify-center gap-2 shadow-lg border-4 transition-all ${emergencyType ? 'bg-red-600 border-red-800 hover:bg-red-700' : 'bg-gray-400 border-gray-600 cursor-not-allowed'}`}>
+                      <AlertCircle className="w-24 h-24 text-white" />
+                      <span className="font-bold text-xl uppercase tracking-widest text-white">Alertify</span>
+                  </button>
+                  <p className={`${darkMode ? 'text-gray-400' : 'text-gray-600'} text-center mt-6 max-w-xs text-sm font-medium`}>Instantly trigger emergency protocol</p>
+                  
+                  <div className="grid grid-cols-2 gap-4 w-full mt-8 max-w-md">
+                      <button onClick={() => setEmergencyType('FIRE')} className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${emergencyType === 'FIRE' ? 'border-red-500 bg-red-50' : 'border-gray-200'}`}>
+                          <Flame className={`w-8 h-8 mb-2 ${emergencyType === 'FIRE' ? 'text-red-500' : 'text-gray-400'}`} />
+                          <span className="font-bold text-xs text-center">Fire Emergency</span>
+                      </button>
+                      <button onClick={() => setEmergencyType('MEDICAL')} className={`flex flex-col items-center justify-center p-4 rounded-xl border-2 transition-all ${emergencyType === 'MEDICAL' ? 'border-blue-500 bg-blue-50' : 'border-gray-200'}`}>
+                          <HeartPulse className={`w-8 h-8 mb-2 ${emergencyType === 'MEDICAL' ? 'text-blue-500' : 'text-gray-400'}`} />
+                          <span className="font-bold text-xs text-center">Medical Emergency</span>
+                      </button>
+                  </div>
+              </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4 w-full mt-auto">
-                <div className={`border p-4 rounded-lg text-center ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-100 border-gray-200'}`}>
-                    <p className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Status</p>
-                    <p className="text-xl font-bold mt-1 text-green-600">ALL SAFE</p>
+            {/* Summary Cards for Webview */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-1 gap-4 w-full lg:w-80 mt-8 lg:mt-0 h-fit">
+                <div className={`border p-6 rounded-2xl ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} shadow-sm`}>
+                    <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Status</p>
+                    <p className="text-2xl font-bold text-green-600">ALL SAFE</p>
                 </div>
-                <div className={`border p-4 rounded-lg text-center ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-100 border-gray-200'}`}>
-                    <p className="text-gray-500 text-[10px] font-bold uppercase tracking-wider">Active Alerts</p>
-                    <p className="text-xl font-bold mt-1">0</p>
+                <div className={`border p-6 rounded-2xl ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} shadow-sm`}>
+                    <p className="text-gray-500 text-xs font-bold uppercase tracking-wider mb-2">Active Alerts</p>
+                    <p className="text-2xl font-bold">0</p>
                 </div>
             </div>
           </div>
         )}
         
-        {showTypeSelector && (
-            <div className="flex flex-col items-center justify-center flex-grow">
-                <h2 className="text-xl font-bold mb-8 uppercase tracking-widest">Select Emergency</h2>
-                <div className="grid grid-cols-1 gap-4 w-full">
-                    <button onClick={() => triggerEmergency('FIRE')} className="bg-red-600 border-2 border-red-400 p-6 rounded-lg flex items-center gap-4 hover:bg-red-700 transition-all text-white">
-                        <Flame className="w-8 h-8 text-white" />
-                        <span className="font-bold text-lg">FIRE EMERGENCY</span>
-                    </button>
-                    <button onClick={() => triggerEmergency('MEDICAL')} className="bg-blue-600 border-2 border-blue-400 p-6 rounded-lg flex items-center gap-4 hover:bg-blue-700 transition-all text-white">
-                        <HeartPulse className="w-8 h-8 text-white" />
-                        <span className="font-bold text-lg">MEDICAL EMERGENCY</span>
-                    </button>
-                </div>
-                <button onClick={() => setShowTypeSelector(false)} className="mt-8 text-gray-500 font-bold uppercase tracking-widest">Cancel</button>
-            </div>
-        )}
+        {/* Other Tabs (Map, Alerts, Settings) - Needs update too for responsive layout */}
         
         {activeTab === 'map' && (
             <div className="flex flex-col flex-grow w-full h-full p-4">
@@ -144,11 +193,11 @@ export function HomeDashboard() {
       </div>
       
       {/* Navbar */}
-      <footer className={`sticky bottom-0 z-50 grid grid-cols-4 ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-gray-200 border-gray-300'} border-t py-4`}>
-        <button onClick={() => { setActiveTab('home'); setShowTypeSelector(false) }} className={`flex flex-col items-center gap-1 ${darkMode ? (activeTab === 'home' ? 'text-white' : 'text-gray-500') : (activeTab === 'home' ? 'text-black' : 'text-gray-600')}`}><Home className="w-6 h-6" /><span className="text-[10px] font-bold">HOME</span></button>
-        <button onClick={() => setActiveTab('alerts')} className={`flex flex-col items-center gap-1 ${darkMode ? (activeTab === 'alerts' ? 'text-white' : 'text-gray-500') : (activeTab === 'alerts' ? 'text-black' : 'text-gray-600')}`}><Bell className="w-6 h-6" /><span className="text-[10px] font-bold">ALERTS</span></button>
-        <button onClick={() => setActiveTab('map')} className={`flex flex-col items-center gap-1 ${darkMode ? (activeTab === 'map' ? 'text-white' : 'text-gray-500') : (activeTab === 'map' ? 'text-black' : 'text-gray-600')}`}><MapIcon className="w-6 h-6" /><span className="text-[10px] font-bold">MAP</span></button>
-        <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 ${darkMode ? (activeTab === 'settings' ? 'text-white' : 'text-gray-500') : (activeTab === 'settings' ? 'text-black' : 'text-gray-600')}`}><Settings className="w-6 h-6" /><span className="text-[10px] font-bold">SETTINGS</span></button>
+      <footer className="lg:hidden sticky bottom-0 z-50 grid grid-cols-4 bg-[#0B1727] border-t border-slate-800 py-4">
+        <button onClick={() => { setActiveTab('home'); }} className={`flex flex-col items-center gap-1 ${activeTab === 'home' ? 'text-blue-400' : 'text-white'}`}><Home className="w-6 h-6" /><span className="text-[10px] font-bold">HOME</span></button>
+        <button onClick={() => setActiveTab('alerts')} className={`flex flex-col items-center gap-1 ${activeTab === 'alerts' ? 'text-blue-400' : 'text-white'}`}><Bell className="w-6 h-6" /><span className="text-[10px] font-bold">ALERTS</span></button>
+        <button onClick={() => setActiveTab('map')} className={`flex flex-col items-center gap-1 ${activeTab === 'map' ? 'text-blue-400' : 'text-white'}`}><MapIcon className="w-6 h-6" /><span className="text-[10px] font-bold">MAP</span></button>
+        <button onClick={() => setActiveTab('settings')} className={`flex flex-col items-center gap-1 ${activeTab === 'settings' ? 'text-blue-400' : 'text-white'}`}><Settings className="w-6 h-6" /><span className="text-[10px] font-bold">SETTINGS</span></button>
       </footer>
     </div>
   );

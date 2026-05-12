@@ -14,7 +14,7 @@ export function ReceiverLayout() {
     return (
         <div className={`flex flex-col h-screen w-full max-w-md mx-auto ${darkMode ? 'bg-gray-900 text-white' : 'bg-white text-black'} font-sans`}>
             <div className="flex-grow overflow-auto">
-                {activeTab === 'home' && <ReceiverHome />}
+                {activeTab === 'home' && <ReceiverHome onGoToMap={() => setActiveTab('map')} />}
                 {activeTab === 'alerts' && <ReceiverAlerts />}
                 {activeTab === 'map' && <ReceiverTrackingPage darkMode={darkMode} />}
                 {activeTab === 'settings' && <ReceiverSettings />}

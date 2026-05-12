@@ -1,7 +1,7 @@
 import { KeyRound, ShieldAlert, ScanFace, User, Mail, Building } from 'lucide-react';
 import React, { useState } from 'react';
 
-export type AccountType = 'Client' | 'Responder' | 'Administrator';
+export type AccountType = 'Client' | 'Responder';
 
 export function AuthForm({ onAuthenticate }: { onAuthenticate: (type: AccountType) => void }) {
   const [mode, setMode] = useState<'Login' | 'Signup'>('Login');
@@ -74,7 +74,6 @@ export function AuthForm({ onAuthenticate }: { onAuthenticate: (type: AccountTyp
         >
             <option value="Client">Client</option>
             <option value="Responder">Responder</option>
-            <option value="Administrator">Administrator</option>
         </select>
 
         <div className="relative">

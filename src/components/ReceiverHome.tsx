@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { Power, Radio } from 'lucide-react';
 
-export function ReceiverHome() {
+export function ReceiverHome({ onGoToMap }: { onGoToMap: () => void }) {
     const [onDuty, setOnDuty] = useState(false);
+
+    const handleToggleDuty = () => {
+        const nextDuty = !onDuty;
+        setOnDuty(nextDuty);
+        if (nextDuty) {
+            onGoToMap();
+        }
+    };
 
     return (
         <div className="p-4 flex flex-col h-full bg-gray-50">
@@ -16,7 +24,7 @@ export function ReceiverHome() {
 
             <div className="flex flex-col items-center justify-center flex-grow">
                 <button 
-                  onClick={() => setOnDuty(!onDuty)}
+                  onClick={handleToggleDuty}
                   className={`w-56 h-56 rounded-full flex flex-col items-center justify-center gap-2 transition-all shadow-lg border-8 ${onDuty ? 'bg-green-50 border-green-200' : 'bg-gray-100 border-gray-200'}`}
                 >
                     <Power className={`w-16 h-16 ${onDuty ? 'text-green-600' : 'text-gray-400'}`} />

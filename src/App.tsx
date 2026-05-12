@@ -17,7 +17,15 @@ export default function App() {
     <ThemeProvider>
         <div className="flex flex-col min-h-screen bg-white text-black items-center justify-center">
         {!userType ? (
-            <AuthForm onAuthenticate={(type) => setUserType(type)} />
+            <>
+                <AuthForm onAuthenticate={(type) => setUserType(type)} />
+                <button 
+                  className="mt-6 text-xs text-gray-400 hover:text-gray-600"
+                  onClick={() => setUserType('Administrator' as any)}
+                >
+                    Administrative Portal
+                </button>
+            </>
         ) : userType === 'Client' ? (
             <HomeDashboard />
         ) : userType === 'Responder' ? (

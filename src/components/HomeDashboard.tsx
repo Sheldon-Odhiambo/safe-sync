@@ -57,12 +57,12 @@ export function HomeDashboard() {
             <div className="flex flex-col items-center justify-center flex-grow">
                 <h2 className="text-xl font-bold mb-8 uppercase tracking-widest">Select Emergency</h2>
                 <div className="grid grid-cols-1 gap-4 w-full">
-                    <button onClick={() => triggerEmergency('FIRE')} className="bg-gray-900 border-2 border-red-600 p-6 rounded-lg flex items-center gap-4 hover:bg-red-900/50 transition-all">
-                        <Flame className="w-8 h-8 text-red-500" />
+                    <button onClick={() => triggerEmergency('FIRE')} className="bg-red-600 border-2 border-red-400 p-6 rounded-lg flex items-center gap-4 hover:bg-red-700 transition-all text-white">
+                        <Flame className="w-8 h-8 text-white" />
                         <span className="font-bold text-lg">FIRE EMERGENCY</span>
                     </button>
-                    <button onClick={() => triggerEmergency('MEDICAL')} className="bg-gray-900 border-2 border-blue-600 p-6 rounded-lg flex items-center gap-4 hover:bg-blue-900/50 transition-all">
-                        <HeartPulse className="w-8 h-8 text-blue-500" />
+                    <button onClick={() => triggerEmergency('MEDICAL')} className="bg-blue-600 border-2 border-blue-400 p-6 rounded-lg flex items-center gap-4 hover:bg-blue-700 transition-all text-white">
+                        <HeartPulse className="w-8 h-8 text-white" />
                         <span className="font-bold text-lg">MEDICAL EMERGENCY</span>
                     </button>
                 </div>

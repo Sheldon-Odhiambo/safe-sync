@@ -1,5 +1,5 @@
 import { AlertTriangle, User, MapPin } from 'lucide-react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 
 export function ReceiverAlertOverlay({ senderDetails, onAccept }: { senderDetails: { name: string, location: string }, onAccept: () => void }) {
   const [slide, setSlide] = useState(0);
@@ -21,7 +21,7 @@ export function ReceiverAlertOverlay({ senderDetails, onAccept }: { senderDetail
         <div className="bg-white text-red-600 rounded-full w-12 h-12 flex items-center justify-center font-bold"
              onTouchMove={(e) => setSlide(e.touches[0].clientX - 50)}
              onMouseMove={(e) => setSlide(e.clientX - 50)}>
-          >>
+          &gt;&gt;
         </div>
         <span className="absolute inset-0 flex items-center justify-center font-bold">Slide to Accept</span>
       </div>

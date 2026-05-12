@@ -1,4 +1,4 @@
-import { MapPin, Clock, Search, Filter, Download } from 'lucide-react';
+import { MapPin, Clock, Search, Filter, Download, Flame, Stethoscope } from 'lucide-react';
 import React from 'react';
 import { useTheme } from '../context/ThemeContext';
 
@@ -53,7 +53,11 @@ export function AdminDashboard() {
             {incidents.map(inc => (
                 <div key={inc.id} className="border-b border-gray-700 pb-4">
                     <div className="flex justify-between items-center mb-2">
-                        <div className="font-bold">{inc.type} <span className="text-xs text-gray-500 font-normal">{inc.id}</span></div>
+                        <div className="flex items-center gap-2 font-bold">
+                          {inc.type === 'Fire Alarm' && <Flame className="text-red-500 w-5 h-5" />}
+                          {inc.type === 'Medical Emergency' && <Stethoscope className="text-blue-500 w-5 h-5" />}
+                          {inc.type} <span className="text-xs text-gray-500 font-normal">{inc.id}</span>
+                        </div>
                         <span className={`px-2 py-1 rounded text-xs font-bold ${inc.status === 'Active' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'}`}>{inc.status.toUpperCase()}</span>
                     </div>
                     <div className="grid grid-cols-2 gap-2 text-sm text-gray-600">

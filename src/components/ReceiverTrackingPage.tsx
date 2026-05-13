@@ -2,8 +2,8 @@ import { Map as MapIcon, Phone, CheckCircle } from 'lucide-react';
 
 export function ReceiverTrackingPage({ darkMode }: { darkMode: boolean }) {
   return (
-    <div className={`flex flex-col flex-grow w-full max-w-md ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
-        <div className="h-64 bg-gray-200 relative">
+    <div className={`flex flex-col flex-grow w-full ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
+        <div className="h-64 lg:h-[500px] bg-gray-200 relative">
             <div className="absolute inset-0 flex items-center justify-center text-gray-500">
                 <MapIcon className="w-16 h-16" />
                 <p>Map View</p>

@@ -92,14 +92,6 @@ export function AlertSentDashboard({ onCancel, darkMode, setActiveTab, emergency
             Cancel Alert
           </button>
         </div>
-      
-        {/* Navbar */}
-        <footer className={`sticky bottom-0 z-50 grid grid-cols-4 ${darkMode ? 'bg-gray-900 border-gray-800' : 'bg-white border-gray-200'} border-t py-4`}>
-            <button onClick={() => { setActiveTab('home'); onCancel(); }} className={`flex flex-col items-center gap-1 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}><Home className="w-6 h-6" /><span className="text-[10px] font-bold">HOME</span></button>
-            <button onClick={() => { setActiveTab('alerts'); onCancel(); }} className={`flex flex-col items-center gap-1 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}><Bell className="w-6 h-6" /><span className="text-[10px] font-bold">ALERTS</span></button>
-            <button onClick={() => { setActiveTab('map'); onCancel(); }} className={`flex flex-col items-center gap-1 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}><MapIcon className="w-6 h-6" /><span className="text-[10px] font-bold">MAP</span></button>
-            <button onClick={() => { setActiveTab('settings'); onCancel(); }} className={`flex flex-col items-center gap-1 ${darkMode ? 'text-gray-500' : 'text-gray-400'}`}><Settings className="w-6 h-6" /><span className="text-[10px] font-bold">SETTINGS</span></button>
-        </footer>
     </div>
   );
 }

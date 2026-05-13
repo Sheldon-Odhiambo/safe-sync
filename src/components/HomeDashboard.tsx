@@ -18,8 +18,23 @@ export function HomeDashboard() {
   };
 
   if (isAlertActive) {
-    return <AlertSentDashboard onCancel={() => setIsAlertActive(false)} darkMode={darkMode} setActiveTab={setActiveTab} emergencyType={emergencyType} />;
-  }
+        return (
+            <div className={`flex flex-col lg:flex-row flex-grow w-full h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
+                <nav className="hidden lg:flex flex-col w-64 border-r bg-[#0B1727] border-slate-800 p-6 text-white">
+                    <h1 className="text-xl font-bold mb-10">SafeSync</h1>
+                    <div className="space-y-4">
+                      <button onClick={() => setActiveTab('home')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'home' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><Home className="w-5 h-5 text-white" />Home</button>
+                      <button onClick={() => setActiveTab('alerts')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'alerts' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><Bell className="w-5 h-5 text-white" />Alerts</button>
+                      <button onClick={() => setActiveTab('map')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'map' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><MapIcon className="w-5 h-5 text-white" />Map</button>
+                      <button onClick={() => setActiveTab('settings')} className={`flex items-center gap-3 w-full p-3 rounded-lg ${activeTab === 'settings' ? 'bg-blue-600' : 'hover:bg-slate-800'}`}><Settings className="w-5 h-5 text-white" />Settings</button>
+                    </div>
+                </nav>
+                <div className="flex-grow p-8">
+                     <AlertSentDashboard onCancel={() => setIsAlertActive(false)} darkMode={darkMode} setActiveTab={setActiveTab} emergencyType={emergencyType} />
+                </div>
+            </div>
+        );
+    }
 
   return (
     <div className={`flex flex-col lg:flex-row flex-grow w-full h-screen ${darkMode ? 'bg-black text-white' : 'bg-white text-black'} font-sans`}>
